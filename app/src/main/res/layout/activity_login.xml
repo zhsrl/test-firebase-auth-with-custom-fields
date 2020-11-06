@@ -6,4 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
+
+    <TextView
+        android:id="@+id/registerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="Login"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerText">
+
+
+        <EditText
+            android:id="@+id/signInEmailET"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:hint="Email"
+            android:background="#FFF"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/signInPasswordET"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:hint="Password"
+            android:background="#FFF"
+            android:inputType="textPassword"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:id="@+id/loginBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/mProgressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,10 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -30,6 +27,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mPassword: EditText
     private lateinit var regButton: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var signIn: TextView
 
     private lateinit var mAuth: FirebaseAuth
 
@@ -70,9 +68,15 @@ class RegisterActivity : AppCompatActivity() {
                                                 override fun onComplete(p0: Task<Void>) {
                                                     progressBar.visibility = View.GONE
                                                     if(p0.isSuccessful){
+
                                                         Toast.makeText(applicationContext,
                                                                 "Registered Successfully!",
                                                                 Toast.LENGTH_SHORT).show()
+
+                                                        val intent = Intent(applicationContext, LoginActivity::class.java)
+                                                        startActivity(intent)
+                                                        finish()
+
                                                     }else{
                                                         Log.e("TAG","failure!",p0.exception)
                                                     }
@@ -91,11 +95,19 @@ class RegisterActivity : AppCompatActivity() {
 
         }
 
+        signIn.setOnClickListener {
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
         val currentUser: FirebaseUser? = mAuth.currentUser
+        if (currentUser != null) {
+            updateUI(currentUser)
+        }
     }
 
     fun init(){
@@ -105,6 +117,7 @@ class RegisterActivity : AppCompatActivity() {
         mEmail = findViewById(R.id.emailET)
         regButton = findViewById(R.id.regBTN)
         progressBar = findViewById(R.id.progressBar)
+        signIn = findViewById(R.id.signInTV)
     }
 
     fun validateName(): Boolean{
@@ -162,4 +175,16 @@ class RegisterActivity : AppCompatActivity() {
             return true
         }
     }
+
+    private fun updateUI(user: FirebaseUser){
+        if(user != null){
+            Log.e("TAG","Signed Successfully!")
+            val intent = Intent(applicationContext, WelcomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }else{
+            Toast.makeText(applicationContext, "You don't signed!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
