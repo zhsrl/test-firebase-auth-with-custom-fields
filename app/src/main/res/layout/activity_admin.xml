@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pdfBTN"
+            android:backgroundTint="#888"
+            android:text="Choose PDF"
+            android:layout_marginRight="20dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/thumbBTN"
+            android:backgroundTint="#888"
+            android:text="Choose Thumb"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/titleET"
+        android:layout_marginTop="80dp"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:background="#FFF"
+        android:paddingLeft="15dp"
+        android:hint="File Title"
+        />
+
+    <EditText
+        android:id="@+id/authorET"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:background="#FFF"
+        android:paddingLeft="15dp"
+        android:hint="Author / Authors"
+        />
+
+    <EditText
+        android:id="@+id/descriptionET"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:background="#FFF"
+        android:paddingLeft="15dp"
+        android:gravity="start"
+        android:paddingTop="10dp"
+        android:hint="Description"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addFileBTN"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#00C853"
+        android:text="ADD FILE"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        />
+
+    <ProgressBar
+        android:id="@+id/adminPanelPB"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
