@@ -3,6 +3,8 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="15dp"
+    android:outlineAmbientShadowColor="#000"
+    android:outlineSpotShadowColor="#000"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -27,8 +29,8 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/downloadBTN"
-            android:text="download"
+            android:id="@+id/descBTN"
+            android:text="Show description"
             android:background="#F88"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
