@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -27,6 +30,7 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var mFileAuthor: EditText
     private lateinit var mFileDescription: EditText
     private lateinit var addFile: MaterialButton
+    private lateinit var adminSignOut: MaterialButton
     private lateinit var progressBar: ProgressBar
 
     //Pick request
@@ -72,6 +76,13 @@ class AdminActivity : AppCompatActivity() {
             upload()
         }
 
+        adminSignOut.setOnClickListener {
+            Firebase.auth.signOut()
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -91,6 +102,7 @@ class AdminActivity : AppCompatActivity() {
         mFileAuthor = findViewById(R.id.authorET)
         mFileDescription = findViewById(R.id.descriptionET)
         addFile = findViewById(R.id.addFileBTN)
+        adminSignOut = findViewById(R.id.adminSignOutBTN)
         progressBar = findViewById(R.id.adminPanelPB)
     }
 

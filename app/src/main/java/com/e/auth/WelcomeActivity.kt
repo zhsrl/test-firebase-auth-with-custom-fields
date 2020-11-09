@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,19 +23,18 @@ class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var mName: TextView
     private lateinit var signOut: MaterialButton
-    private lateinit var adminPanel: MaterialButton
 
-    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mAuth: FirebaseUser
 
     private lateinit var ref: DatabaseReference
 
     private lateinit var recView: RecyclerView
     private lateinit var fileDataAdapter: FileDataAdapter
-    var listData: MutableList<FileData?>? = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+
         //Initalize data
         init()
         recView.layoutManager = LinearLayoutManager(this)
@@ -43,7 +43,10 @@ class WelcomeActivity : AppCompatActivity() {
         getNameData()
 
         val options: FirebaseRecyclerOptions<FileData> = FirebaseRecyclerOptions.Builder<FileData>()
-                .setQuery(FirebaseDatabase.getInstance().reference.child("Uploads"), FileData::class.java)
+                .setQuery(
+                    FirebaseDatabase.getInstance().reference.child("Uploads"),
+                    FileData::class.java
+                )
                 .build()
 
         fileDataAdapter = FileDataAdapter(options)
@@ -53,17 +56,13 @@ class WelcomeActivity : AppCompatActivity() {
 
         //Sign out
         signOut.setOnClickListener{
-            mAuth.signOut()
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
             finish()
 //            download()
         }
 
-        adminPanel.setOnClickListener{
-            val intent = Intent(applicationContext, AdminActivity::class.java)
-            startActivity(intent)
-
-            Toast.makeText(applicationContext, "You move to Admin Panel!", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onStart() {
@@ -98,7 +97,6 @@ class WelcomeActivity : AppCompatActivity() {
         mName = findViewById(R.id.viewNameTV)
         signOut = findViewById(R.id.signOutBTN)
         recView = findViewById(R.id.recView)
-        adminPanel = findViewById(R.id.adminPanelBTN)
     }
 
     fun getNameData(){
@@ -116,8 +114,9 @@ class WelcomeActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(applicationContext, "Error EVENT LISTENER!", Toast.LENGTH_SHORT)
-                            .show()
+                        .show()
                 }
+
 
             })
         }

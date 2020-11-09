@@ -7,10 +7,7 @@ import android.service.autofill.UserData
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -27,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mPassword: EditText
     private lateinit var progressBar: ProgressBar
     private lateinit var signInButton: Button
+    private lateinit var register: TextView
 
     private lateinit var mAuth: FirebaseAuth
 
@@ -42,11 +40,6 @@ class LoginActivity : AppCompatActivity() {
 
 
         signInButton.setOnClickListener{
-//            if(!TextUtils.isEmpty(vEmail) || !TextUtils.isEmpty(vPassword)){
-//
-//
-//
-//            }
             progressBar.visibility = View.VISIBLE
 
             val vEmail = mEmail.text.toString().trim()
@@ -56,11 +49,18 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener(object : OnCompleteListener<AuthResult>{
                         override fun onComplete(p0: Task<AuthResult>) {
                             if(p0.isSuccessful){
-                                progressBar.visibility = View.GONE
-                                Toast.makeText(applicationContext,"Sign in successfully!", Toast.LENGTH_SHORT).show()
+                                val currentUser: String = mAuth.currentUser!!.uid
+                                val admin: String = "PH8ZQtKotKUOtWdn6mRSWnlBUs93"
+                                if(currentUser == admin){
+                                    progressBar.visibility = View.GONE
+                                    val adminUser: FirebaseUser = mAuth.currentUser!!
+                                    adminUpdateUI(adminUser)
 
-                                val user: FirebaseUser = mAuth.currentUser!!
-                                updateUI(user)
+                                }else{
+                                    progressBar.visibility = View.GONE
+                                    val user: FirebaseUser = mAuth.currentUser!!
+                                    updateUI(user)
+                                }
                             }else{
                                 progressBar.visibility = View.GONE
                                 Toast.makeText(applicationContext, p0.exception?.message , Toast.LENGTH_SHORT).show()
@@ -70,6 +70,12 @@ class LoginActivity : AppCompatActivity() {
 
                     })
 
+        }
+
+        register.setOnClickListener {
+            val intent = Intent(applicationContext, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }
@@ -87,12 +93,31 @@ class LoginActivity : AppCompatActivity() {
         mPassword = findViewById(R.id.signInPasswordET)
         progressBar = findViewById(R.id.mProgressBar)
         signInButton = findViewById(R.id.loginBTN)
+        register = findViewById(R.id.registerTextView)
     }
 
     private fun updateUI(user: FirebaseUser){
         if(user != null){
-            Log.e("TAG","Signed Successfully!")
-            val intent = Intent(applicationContext, WelcomeActivity::class.java)
+            if(user.uid == "PH8ZQtKotKUOtWdn6mRSWnlBUs93"){
+                adminUpdateUI(user)
+                finish()
+            }else{
+                Log.e("TAG","Signed Successfully!")
+                Toast.makeText(applicationContext, "Signed Successfully!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(applicationContext, WelcomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }else{
+            Toast.makeText(applicationContext,"You don't signed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun adminUpdateUI(user: FirebaseUser){
+        if(user != null){
+            Log.e("TAG","ADMIN PANEL ACTIVATED!")
+            Toast.makeText(applicationContext, "ADMIN PANEL ACTIVATED!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(applicationContext, AdminActivity::class.java)
             startActivity(intent)
             finish()
         }else{
